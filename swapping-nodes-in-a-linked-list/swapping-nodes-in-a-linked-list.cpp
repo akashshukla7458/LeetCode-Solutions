@@ -11,16 +11,18 @@
 class Solution {
 public:
     ListNode* swapNodes(ListNode* head, int k) {
-    ListNode *n1 = nullptr, *n2 = nullptr;
-    for (auto p = head; p != nullptr; p = p->next) {
-        n2 = n2 == nullptr ? nullptr : n2->next;
-        if (--k == 0) {
-            n1 = p;
-            n2 = head;
+      ListNode *ptr1 = head, *ptr2 = head, *kth = NULL;
+        while (--k)
+            ptr1 = ptr1->next;
+        
+        kth = ptr1;
+        ptr1 = ptr1->next;
+        
+        while (ptr1) {
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
         }
-    }
-	// The problem description specifically asks to swap values, not nodes themselves. 
-    swap(n1->val, n2->val);
-    return head;
+        swap(ptr2->val, kth->val);
+        return head;
 }
 };
