@@ -3,14 +3,15 @@ public:
     int maxValue(int n, int index, int maxSum) {
         maxSum -= n;
         int left = 0, right = maxSum, mid;
-        while (left < right) {
-            mid = (left + right + 1) / 2;
+        while (left <= right) {
+            // mid = (left + right + 1) / 2;
+            mid= left +(right-left)/2;
             if (test(n, index, mid) <= maxSum)
-                left = mid;
+                left = mid+1;
             else
                 right = mid - 1;
         }
-        return left + 1;
+        return left ;
     }
 
     long test(int n, int index, int a) {
