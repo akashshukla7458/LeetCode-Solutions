@@ -1,23 +1,31 @@
 class Solution {
 public:
-    int maximumRequests(int n, vector<vector<int>>& req) {
-        int nr= req.size();
-        int ans=0;
-        for(int mask=0; mask <(1<<nr);mask++){
-            vector<int> in(n,0), out(n,0);
-            for(int i=0;i<nr;i++){
-                if(mask & (1<<i)){
-                    out[req[i][0]]++;
-                    in[req[i][1]]++;
-                }
-            }
+int ans=0;
+void solve(int s, vector<vector<int>>&req, vector<int>&indegree, int n,int cnt){
+    if(s==req.size()){
+        // all req ended
+        for(int i=0;i<n;i++)
+            if(indegree[i]!=0) return;
+        
+        ans= max(ans, cnt);
+        return;
+    }
+     //req remaining
+     indegree[req[s][0]]--;
+     indegree[req[s][1]]++;
+     solve(s+1, req, indegree, n, cnt+1);
 
-            if(out==in){
-                int temp=0;
-                for(auto &v: out) temp+=v;
-                ans= max(ans, temp);
-            }
-        }
+     //backtrack
+     indegree[req[s][0]]++;
+     indegree[req[s][1]]--;
+     solve(s+1, req, indegree, n, cnt);
+
+
+    
+}
+    int maximumRequests(int n, vector<vector<int>>& req) {
+        vector<int>indegree(n,0);
+        solve(0, req, indegree,n, 0);
         return ans;
     }
 };
