@@ -1,16 +1,18 @@
 class Solution {
 public:
-bool solve(string s, unordered_set<string>&st,int idx , vector<int>&dp){
-    if(s.size()==idx) return true;
-    if(dp[idx]!=-1) return dp[idx];
-    for(int i=idx;i<s.size();i++){
-        if(st.count(s.substr(idx,i+1-idx))&& solve(s,st,i+1,dp)) return dp[idx]= true;
-    }
-    return dp[idx]=false;
-}
+
     bool wordBreak(string s, vector<string>& wordDict) {
-        vector<int>dp(s.size()+1,-1);
+        vector<int>dp(s.size()+1,0);
+        dp[0]= true;
         unordered_set<string>st(wordDict.begin(), wordDict.end());
-        return solve(s,st,0,dp);
+    
+        for(int i=1; i<=s.size();i++){
+            for(int j=0;j<i;j++){
+                if(dp[j] && st.count(s.substr(j,i-j))){
+                    dp[i]= true; break;
+                }
+            }
+        }
+        return dp[s.size()];
     }
 };
