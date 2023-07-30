@@ -19,7 +19,7 @@ int f(int i, int j, string &s){
 }
 vector<vector<int>>dp;
     int strangePrinter(string s) {
-        s.erase(unique(s.begin(), s.end()), s.end());
+        // s.erase(unique(s.begin(), s.end()), s.end());
          n= s.size();
          dp.assign(n,vector<int>(n,-1));
 
