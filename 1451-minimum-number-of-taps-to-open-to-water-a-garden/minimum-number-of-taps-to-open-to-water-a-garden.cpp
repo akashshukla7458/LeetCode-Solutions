@@ -1,41 +1,16 @@
 class Solution {
 public:
     int minTaps(int n, vector<int>& ranges) {
-        vector<pair<int, int>> intervals;
-        for (int i = 0; i <= n; ++i) {
-            intervals.push_back({max(0, i - ranges[i]), min(n, i + ranges[i])});
-        }
-        
-        
-        sort(intervals.begin(), intervals.end());
+        vector<int>dp(n+1,n+2);
+        dp[0]=0; // no tap to water nothing
 
-     
-        int taps = 0; 
-        int currentPosition = 0; 
-        int nextPosition = 0; 
-        
-        for (int i = 0; i <= n; ) {
-            // Check if there's an interval covering currentPosition
-            while (i <= n && intervals[i].first <= currentPosition) {
-                nextPosition = max(nextPosition, intervals[i].second);
-                ++i;
-            }
-            
-            // If no interval found covering currentPosition, return -1
-            if (nextPosition == currentPosition) {
-                return -1;
-            }
-            
-            // Increment taps used and update currentPosition
-            ++taps;
-            currentPosition = nextPosition;
-            
-            // If we've reached the end of the garden, break the loop
-            if (currentPosition >= n) {
-                break;
+        for(int i=0;i<=n;i++){
+            int l= max(0, i-ranges[i]);
+            int r= min(n, i+ranges[i]);
+            for(int j=l+1; j<=r;j++){
+                dp[j]= min(dp[j], 1+ dp[l]);
             }
         }
-        
-        return taps;
+        return dp[n] >n+1? -1: dp[n];
     }
 };
