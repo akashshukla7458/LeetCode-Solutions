@@ -1,22 +1,19 @@
 class Solution {
 public:
     int minDeletions(string s) {
-        unordered_map<char, int>mp;
-        for(auto ch: s)
-          mp[ch]++;
-        priority_queue<int>pq;
-        for(auto &it: mp)
-         pq.push(it.second);
-
-         int cnt=0;
-         while(pq.size()!=1){
-             int top= pq.top();
-             pq.pop();
-             if(pq.top()==top && top!=0){
-                 cnt++;
-                 pq.push(top-1);
-             }
-         }
-         return cnt;
+       vector<int>freq(26,0);
+       for(char c:s)
+        freq[c-'a']++;
+        sort(freq.begin(), freq.end());
+        int cnt=0;
+        for(int i=24 ;i>=0;i--){
+            if(freq[i]==0) break;
+            if(freq[i] >= freq[i+1]){
+                int prev= freq[i];
+                freq[i]= max(0,freq[i+1]-1);
+                cnt+= prev- freq[i];
+            }
+        }
+        return cnt;
     }
 };
